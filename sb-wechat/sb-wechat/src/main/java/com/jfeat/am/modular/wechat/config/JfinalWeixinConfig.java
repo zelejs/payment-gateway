@@ -1,6 +1,5 @@
 package com.jfeat.am.modular.wechat.config;
 
-import com.jfeat.am.core.util.SpringContextHolder;
 import com.jfeat.am.modular.wechat.controller.WeixinMsgController;
 import com.jfeat.am.modular.wechat.service.WechatConfigService;
 import com.jfinal.config.*;
@@ -15,10 +14,10 @@ import java.util.Map;
  * Created by jackyhuang on 2017/7/3.
  */
 @Component
-@DependsOn("springContextHolder")
+//@DependsOn("springContextHolder")
 public class JfinalWeixinConfig extends JFinalConfig {
 
-    private WechatConfigService configService = SpringContextHolder.getBean(WechatConfigService.class);
+    //private WechatConfigService configService = SpringContextHolder.getBean(WechatConfigService.class);
 
     @Override
     public void configConstant(Constants constants) {
@@ -51,12 +50,12 @@ public class JfinalWeixinConfig extends JFinalConfig {
 
     @Override
     public void afterJFinalStart() {
-        configService.refreshApiConfig();
+        //configService.refreshApiConfig();
     }
 
-    @Bean(initMethod = "init")
+    //@Bean(initMethod = "init")
     public Object initApiConfig() {
-        configService.refreshApiConfig();
+        //configService.refreshApiConfig();
         return null;
     }
 }

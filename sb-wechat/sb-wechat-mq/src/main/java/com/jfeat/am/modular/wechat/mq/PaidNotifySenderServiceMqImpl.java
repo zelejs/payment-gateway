@@ -1,9 +1,8 @@
 package com.jfeat.am.modular.wechat.mq;
 
 import com.google.common.collect.Maps;
-import com.jfeat.am.config.web.EnabledAccountShiroExtension;
-import com.jfeat.am.core.util.JsonKit;
 import com.jfeat.am.modular.wechat.service.PaidNotifySenderService;
+import com.jfinal.kit.JsonKit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;

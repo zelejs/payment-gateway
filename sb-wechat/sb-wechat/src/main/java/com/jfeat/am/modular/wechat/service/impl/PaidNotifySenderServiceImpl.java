@@ -4,7 +4,6 @@ import com.jfeat.am.modular.wechat.event.PaidBean;
 import com.jfeat.am.modular.wechat.event.PaidEvent;
 import com.jfeat.am.modular.wechat.service.NotifySenderExtension;
 import com.jfeat.am.modular.wechat.service.PaidNotifySenderService;
-import com.jfeat.module.event.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -22,8 +21,8 @@ import javax.annotation.Resource;
 public class PaidNotifySenderServiceImpl implements PaidNotifySenderService {
     private static final Logger logger = LoggerFactory.getLogger(PaidNotifySenderServiceImpl.class);
 
-    @Resource
-    EventService eventService;
+    //@Resource
+    //EventService eventService;
 
     @Override
     public boolean send(String orderNumber, String paymentType, String transactionId) {
@@ -32,7 +31,7 @@ public class PaidNotifySenderServiceImpl implements PaidNotifySenderService {
         paidBean.setOrderNumber(orderNumber);
         paidBean.setPaymentType(paymentType);
         paidBean.setTransactionId(transactionId);
-        eventService.publishEvent(new PaidEvent(this, paidBean));
+        //eventService.publishEvent(new PaidEvent(this, paidBean));
         return true;
     }
 }

@@ -1,6 +1,5 @@
 package com.jfeat.am.wechat;
 
-import com.jfeat.am.core.support.StrKit;
 import org.junit.Test;
 
 /**

@@ -1,11 +1,12 @@
 package com.jfeat.am.modular.wechat.api.pub;
 
-import com.jfeat.am.common.controller.BaseController;
 import com.jfeat.am.common.persistence.model.WechatConfig;
 import com.jfeat.am.modular.wechat.service.PaidNotifySenderService;
 import com.jfeat.am.modular.wechat.service.WechatConfigService;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.weixin.sdk.kit.PaymentKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +22,18 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/pub/wpay")
-public class WechatPayNotifyEndpoint extends BaseController {
+public class WechatPayNotifyEndpoint   {
 
     @Resource
     private PaidNotifySenderService paidNotifySenderService;
     @Resource
     private WechatConfigService wechatConfigService;
 
+    private final Logger logger = LoggerFactory.getLogger(WechatPayNotifyEndpoint.class);
+
     @PostMapping("/notify/{appId}")
     public String payNotify(@PathVariable String appId) {
-        String xmlMsg = HttpKit.readData(getHttpServletRequest());
+        String xmlMsg = HttpKit.readData(null/*getHttpServletRequest()*/);
         logger.info("pay_notify=" + xmlMsg);
         Map params = PaymentKit.xmlToMap(xmlMsg);
         String result_code = (String)params.get("result_code");

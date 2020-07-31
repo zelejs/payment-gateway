@@ -1,15 +1,12 @@
 package com.jfeat.am.modular.wechat.api;
 
 
-import com.jfeat.am.common.constant.tips.SuccessTip;
-import com.jfeat.am.common.constant.tips.Tip;
-import com.jfeat.am.common.controller.BaseController;
-import com.jfeat.am.common.persistence.model.User;
 import com.jfeat.am.core.jwt.JWTKit;
-import com.jfeat.am.modular.system.service.UserService;
 import com.jfeat.am.modular.wechat.service.WechatConfigService;
 import com.jfeat.am.modular.wechat.service.WechatPushOrderService;
 import com.jfeat.am.modular.wechat.wrapper.PushOrderWrapper;
+import com.jfeat.crud.base.tips.SuccessTip;
+import com.jfeat.crud.base.tips.Tip;
 import com.jfinal.weixin.sdk.api.PaymentApi;
 import com.jfinal.weixin.sdk.kit.IpKit;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +20,14 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/pub/wpay/push_order")
-public class WechatPushOrderEndpoint extends BaseController {
+public class WechatPushOrderEndpoint   {
 
     @Resource
     WechatPushOrderService wechatPushOrderService;
 
     @PostMapping
     public Tip pushOrder(@RequestBody PushOrderWrapper pushOrderWrapper) {
-        String ip = IpKit.getRealIp(getHttpServletRequest());
+        String ip = IpKit.getRealIp(null/*getHttpServletRequest()*/);
 
         Map<String, String> result = wechatPushOrderService.pushOrder(pushOrderWrapper.getTitle(),
                 pushOrderWrapper.getDetail(),

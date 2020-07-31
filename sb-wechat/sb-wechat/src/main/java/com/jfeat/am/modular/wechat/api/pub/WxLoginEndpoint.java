@@ -1,20 +1,14 @@
 package com.jfeat.am.modular.wechat.api.pub;
 
 import com.google.common.collect.Maps;
-import com.jfeat.am.common.constant.tips.ErrorTip;
-import com.jfeat.am.common.constant.tips.SuccessTip;
-import com.jfeat.am.common.constant.tips.Tip;
-import com.jfeat.am.common.controller.BaseController;
-import com.jfeat.am.common.exception.BusinessCode;
-import com.jfeat.am.common.persistence.model.User;
-import com.jfeat.am.core.jwt.JWTService;
-import com.jfeat.am.core.shiro.AccessToken;
-import com.jfeat.am.modular.system.api.wechat.AuthResult;
-import com.jfeat.am.modular.system.service.UserService;
 import com.jfeat.am.modular.wechat.sdk.api.SnsApi;
 import com.jfeat.am.modular.wechat.service.WechatConfigService;
 import com.jfeat.am.modular.wechat.wrapper.WxAppLoginWrapper;
-import org.apache.commons.lang.RandomStringUtils;
+import com.jfeat.crud.base.tips.ErrorTip;
+import com.jfeat.crud.base.tips.SuccessTip;
+import com.jfeat.crud.base.tips.Tip;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,25 +24,27 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/pub/wx")
-public class WxLoginEndpoint extends BaseController {
+public class WxLoginEndpoint   {
 
     @Resource
     private WechatConfigService wechatConfigService;
 
-    @Resource
-    private UserService userService;
+    //@Resource
+    //private UserService userService;
+
+    private final Logger logger = LoggerFactory.getLogger(WechatPayNotifyEndpoint.class);
 
     @PostMapping("/login")
     public Tip login(@Valid @RequestBody WxAppLoginWrapper loginWrapper) {
         String openid = loginWrapper.getOpenid();
-        AuthResult authResult = SnsApi.validateAccessToken(loginWrapper.getAccessToken(), openid);
-        if (!authResult.isSucceed()) {
+        //AuthResult authResult = SnsApi.validateAccessToken(loginWrapper.getAccessToken(), openid);
+       /* if (!authResult.isSucceed()) {
             logger.error("wx login failed. code = {}, error = {}", authResult.getErrorCode(), authResult.getErrorMsg());
             return ErrorTip.create(BusinessCode.ThirdPartError);
-        }
+        }*/
 
         //generate accessToken
-        User user = userService.getByOpenid(openid);
+     /*   User user = userService.getByOpenid(openid);
         if (user == null) {
             user = new User();
             user.setPassword(RandomStringUtils.randomAlphabetic(10));
@@ -62,12 +58,12 @@ public class WxLoginEndpoint extends BaseController {
         AccessToken accessToken = new AccessToken();
         accessToken.setAccessToken(token);
         accessToken.setExpiresIn(JWTService.me().getExpiresIn());
-        accessToken.setTokenType(JWTService.me().getTokenType());
+        accessToken.setTokenType(JWTService.me().getTokenType());*/
 
         Map<String, Object> result = Maps.newHashMap();
-        result.put("loginName", user.getAccount());
+        /*result.put("loginName", user.getAccount());
         result.put("openid", openid);
-        result.put("accessToken", accessToken);
+        result.put("accessToken", accessToken);*/
         return SuccessTip.create(result);
     }
 

@@ -1,12 +1,12 @@
 package com.jfeat.am.modular.wechat.service.impl;
 
-import com.jfeat.am.common.exception.BusinessCode;
-import com.jfeat.am.common.exception.BusinessException;
 import com.jfeat.am.common.persistence.model.WechatConfig;
-import com.jfeat.am.core.util.JsonKit;
 import com.jfeat.am.modular.wechat.bean.QrCode;
 import com.jfeat.am.modular.wechat.service.WechatConfigService;
 import com.jfeat.am.modular.wechat.service.WechatQrCodeService;
+import com.jfeat.crud.base.exception.BusinessCode;
+import com.jfeat.crud.base.exception.BusinessException;
+import com.jfinal.kit.JsonKit;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.QrcodeApi;
@@ -37,7 +37,7 @@ public class WechatQrCodeServiceImpl implements WechatQrCodeService {
             logger.error("create temporary qrcode error. {}", apiResult.toString());
             throw new BusinessException(BusinessCode.ThirdPartError);
         }
-        return JsonKit.parseObject(apiResult.getJson(), QrCode.class);
+        return JsonKit.parse(apiResult.getJson(), QrCode.class);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class WechatQrCodeServiceImpl implements WechatQrCodeService {
             logger.error("create permanent qrcode error. {}", apiResult.toString());
             throw new BusinessException(BusinessCode.ThirdPartError);
         }
-        return JsonKit.parseObject(apiResult.getJson(), QrCode.class);
+        return JsonKit.parse(apiResult.getJson(), QrCode.class);
     }
 
     @Override

@@ -1,15 +1,13 @@
 package com.jfeat.am.modular.wechat.service.impl;
 
 import com.google.common.collect.Maps;
-import com.jfeat.am.common.exception.BizExceptionEnum;
-import com.jfeat.am.common.exception.BusinessException;
 import com.jfeat.am.common.persistence.model.WechatConfig;
-import com.jfeat.am.core.support.StrKit;
-import com.jfeat.am.core.util.JsonKit;
-import com.jfeat.am.modular.system.service.TenantService;
 import com.jfeat.am.modular.wechat.constant.TradeType;
 import com.jfeat.am.modular.wechat.service.WechatConfigService;
 import com.jfeat.am.modular.wechat.service.WechatPushOrderService;
+import com.jfeat.crud.base.exception.BusinessCode;
+import com.jfeat.crud.base.exception.BusinessException;
+import com.jfeat.crud.base.util.StrKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.weixin.sdk.api.PaymentApi;
 import com.jfinal.weixin.sdk.kit.PaymentKit;
@@ -36,8 +34,8 @@ public class WechatPushOrderServiceImpl implements WechatPushOrderService {
 
     @Resource
     WechatConfigService wechatConfigService;
-    @Resource
-    TenantService tenantService;
+    //@Resource
+    //TenantService tenantService;
 
     @Override
     public Map<String, String> pushOrder(String title,
@@ -49,7 +47,7 @@ public class WechatPushOrderServiceImpl implements WechatPushOrderService {
                          String apiHost,
                          String tradeType) {
 
-        WechatConfig wechatConfig = wechatConfigService.getByTenantId(tenantService.getDefaultTenant().getId());
+        WechatConfig wechatConfig = wechatConfigService.getByTenantId(null/*tenantService.getDefaultTenant().getId()*/);
         String appid = WXA_TYPE.equalsIgnoreCase(tradeType) ? wechatConfig.getWxaAppId() : wechatConfig.getAppId();
         Map params = new HashMap<>();
         params.put("appid", appid);
@@ -95,13 +93,13 @@ public class WechatPushOrderServiceImpl implements WechatPushOrderService {
             }
         }
 
-        throw new BusinessException(BizExceptionEnum.SERVER_ERROR.getCode(), xmlResult);
+        throw new BusinessException(BusinessCode.NotSupport.getCode(), xmlResult);
     }
 
 
     @Override
     public boolean refund(String outTradeNo, String outRefundNo, BigDecimal totalFee, BigDecimal refundFee) {
-        WechatConfig wechatConfig = wechatConfigService.getByTenantId(tenantService.getDefaultTenant().getId());
+        WechatConfig wechatConfig = wechatConfigService.getByTenantId(null/*tenantService.getDefaultTenant().getId()*/);
         HashMap<String, String> params = Maps.newHashMap();
         params.put("appid", wechatConfig.getAppId());
         params.put("mch_id", wechatConfig.getPartnerId());

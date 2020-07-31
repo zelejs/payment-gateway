@@ -91,11 +91,15 @@ am:
 spring:
   profiles: dev
   datasource:
-      url: jdbc:mysql://127.0.0.1:13306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
-      username: root
-      password: root
+      #url: jdbc:mysql://127.0.0.1:13306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+      #username: root
+      #password: root
+      url: jdbc:mysql://120.24.235.88/test?characterEncoding=utf8&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+      username: zb
+      password: zb2014
+      driver-class-name: com.mysql.jdbc.Driver
       filters: log4j,wall,mergeStat
-      initialize: true
+      initialize: false
       schema: classpath*:sql/*-schema.sql
       data: classpath*:sql/*-data.sql
 

@@ -4,8 +4,6 @@ import com.jfeat.am.modular.wechat.event.InFollowBean;
 import com.jfeat.am.modular.wechat.event.InFollowSubscribeEvent;
 import com.jfeat.am.modular.wechat.event.InFollowUnsubscribeEvent;
 import com.jfeat.am.modular.wechat.service.InFollowNotifySenderService;
-import com.jfeat.module.event.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,15 +18,15 @@ import javax.annotation.Resource;
 @Service
 public class InFollowNotifySenderServiceImpl implements InFollowNotifySenderService {
 
-    @Resource
-    EventService eventService;
+    //@Resource
+    //EventService eventService;
 
     @Override
     public boolean subscribe(String appId, String openid) {
         InFollowBean inFollowBean = new InFollowBean();
         inFollowBean.setAppId(appId);
         inFollowBean.setOpenid(openid);
-        eventService.publishEvent(new InFollowSubscribeEvent(this, inFollowBean));
+        //eventService.publishEvent(new InFollowSubscribeEvent(this, inFollowBean));
         return true;
     }
 
@@ -37,7 +35,7 @@ public class InFollowNotifySenderServiceImpl implements InFollowNotifySenderServ
         InFollowBean inFollowBean = new InFollowBean();
         inFollowBean.setAppId(appId);
         inFollowBean.setOpenid(openid);
-        eventService.publishEvent(new InFollowUnsubscribeEvent(this, inFollowBean));
+        //eventService.publishEvent(new InFollowUnsubscribeEvent(this, inFollowBean));
         return true;
     }
 }

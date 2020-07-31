@@ -1,6 +1,5 @@
 package com.jfeat.am;
 
-import com.jfeat.am.config.properties.AmProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +21,19 @@ public class AmApplication extends WebMvcConfigurerAdapter{
 
     protected final static Logger logger = LoggerFactory.getLogger(com.jfeat.AmApplication.class);
 
-    @Autowired
-    AmProperties amProperties;
+    //@Autowired
+    //AmProperties amProperties;
 
     /**
      * 增加swagger的支持
      */
-    @Override
+  /*  @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         if(amProperties.getSwaggerOpen()){
             registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
             registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         }
-    }
+    }*/
 
     public static void main(String[] args) {
         SpringApplication.run(com.jfeat.AmApplication.class, args);

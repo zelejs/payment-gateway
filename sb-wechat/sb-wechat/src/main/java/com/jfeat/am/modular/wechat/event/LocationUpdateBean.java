@@ -1,6 +1,5 @@
 package com.jfeat.am.modular.wechat.event;
 
-import com.jfeat.module.event.BasicEvent;
 
 import java.math.BigDecimal;
 

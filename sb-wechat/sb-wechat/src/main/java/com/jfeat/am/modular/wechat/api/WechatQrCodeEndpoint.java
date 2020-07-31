@@ -1,13 +1,10 @@
 package com.jfeat.am.modular.wechat.api;
 
-import com.jfeat.am.common.constant.tips.SuccessTip;
-import com.jfeat.am.common.constant.tips.Tip;
-import com.jfeat.am.common.controller.BaseController;
-import com.jfeat.am.common.exception.BusinessCode;
-import com.jfeat.am.common.exception.BusinessException;
 import com.jfeat.am.common.persistence.model.WechatConfig;
 import com.jfeat.am.core.jwt.JWTKit;
 import com.jfeat.am.modular.wechat.service.WechatQrCodeService;
+import com.jfeat.crud.base.tips.SuccessTip;
+import com.jfeat.crud.base.tips.Tip;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.QrcodeApi;
@@ -25,7 +22,7 @@ import javax.validation.constraints.Size;
  */
 @RestController
 @RequestMapping("/api/wechat_qrcode")
-public class WechatQrCodeEndpoint extends BaseController {
+public class WechatQrCodeEndpoint   {
 
     @Autowired
     private WechatQrCodeService wechatQrCodeService;
@@ -34,15 +31,15 @@ public class WechatQrCodeEndpoint extends BaseController {
     @PostMapping("/temporary")
     public Tip createTemporary(@Max(2592000) @RequestParam(required = false, defaultValue = "604800") Integer expireSeconds,
                                @Min(1) @RequestParam Integer sceneId) {
-        Long tenantId = JWTKit.getTenantId(getHttpServletRequest());
-        return SuccessTip.create(wechatQrCodeService.createTemporary(tenantId, expireSeconds, sceneId));
+        //Long tenantId = JWTKit.getTenantId(getHttpServletRequest());
+        return SuccessTip.create(wechatQrCodeService.createTemporary(null, expireSeconds, sceneId));
     }
 
     @ApiOperation(value = "生成带参数的永久二维码")
     @PostMapping("/permanent")
     public Tip createPermanent(@Size(min = 1, max = 64) @RequestParam String sceneStr) {
-        Long tenantId = JWTKit.getTenantId(getHttpServletRequest());
-        return SuccessTip.create(wechatQrCodeService.createPermanent(tenantId, sceneStr));
+        //Long tenantId = JWTKit.getTenantId(getHttpServletRequest());
+        return SuccessTip.create(wechatQrCodeService.createPermanent(null, sceneStr));
     }
 
     @ApiOperation(value = "根据ticket返回二维码地址")

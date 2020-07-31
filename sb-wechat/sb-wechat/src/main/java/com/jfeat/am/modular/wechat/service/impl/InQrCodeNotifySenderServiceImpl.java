@@ -1,12 +1,11 @@
 package com.jfeat.am.modular.wechat.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.jfeat.am.core.support.StrKit;
 import com.jfeat.am.modular.wechat.event.InQrCodeBean;
 import com.jfeat.am.modular.wechat.event.InQrCodeScanEvent;
 import com.jfeat.am.modular.wechat.event.InQrCodeSubscribeEvent;
 import com.jfeat.am.modular.wechat.service.InQrCodeNotifySenderService;
-import com.jfeat.module.event.EventService;
+import com.jfeat.crud.base.util.StrKit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,8 @@ public class InQrCodeNotifySenderServiceImpl implements InQrCodeNotifySenderServ
 
     private static final String QR_CODE_SCENE_PREFIX = "qrscene_";
 
-    @Resource
-    EventService eventService;
+    //@Resource
+    //EventService eventService;
 
     @Override
     public boolean subscribe(String appId, String openid, String eventKey, String ticket) {
@@ -37,7 +36,7 @@ public class InQrCodeNotifySenderServiceImpl implements InQrCodeNotifySenderServ
         inQrCodeBean.setAppId(appId);
         inQrCodeBean.setSceneId(sceneId);
         logger.debug("publishing qrcode subscribe event: {}", JSON.toJSONString(inQrCodeBean));
-        eventService.publishEvent(new InQrCodeSubscribeEvent(this, inQrCodeBean));
+        //eventService.publishEvent(new InQrCodeSubscribeEvent(this, inQrCodeBean));
         return true;
     }
 
@@ -48,7 +47,7 @@ public class InQrCodeNotifySenderServiceImpl implements InQrCodeNotifySenderServ
         inQrCodeBean.setAppId(appId);
         inQrCodeBean.setSceneId(eventKey);
         logger.debug("publishing qrcode scan event: {}", JSON.toJSONString(inQrCodeBean));
-        eventService.publishEvent(new InQrCodeScanEvent(this, inQrCodeBean));
+        //eventService.publishEvent(new InQrCodeScanEvent(this, inQrCodeBean));
         return true;
     }
 }
