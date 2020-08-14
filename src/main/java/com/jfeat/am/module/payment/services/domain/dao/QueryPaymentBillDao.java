@@ -12,6 +12,6 @@ import java.util.List;
  * Created by Code Generator on 2018-10-18
  */
 public interface QueryPaymentBillDao extends BaseMapper<PaymentBillRecord> {
-    List<PaymentBillRecord> findPaymentBillPage(Page<PaymentBillRecord> page, @Param("record") PaymentBillRecord record, @Param("search") String search, @Param("orderBy") String orderBy);
+    List<PaymentBillRecord> findPaymentBillPage(Page<PaymentBillRecord> page, @Param("orgId") Long orgId, @Param("record") PaymentBillRecord record, @Param("search") String search, @Param("orderBy") String orderBy);
     PaymentBill selectOne(@Param("appId") String appId, @Param("orderNum") String orderNum);
 }

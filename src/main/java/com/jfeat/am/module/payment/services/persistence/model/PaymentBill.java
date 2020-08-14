@@ -26,6 +26,16 @@ public class PaymentBill extends Model<PaymentBill> {
 
 	@TableId(value="id", type= IdType.AUTO)
 	private Long id;
+	/**
+	 * 用于隔离的组织id, 由crud-plus维护
+	 */
+	@TableField("org_id")
+	private  Long orgId;
+	/**
+	 * 用于隔离的组织标识, 参考 docker而定
+	 */
+	@TableField("org_tag")
+	private String orgTag;
     /**
      * 账单编号
      */
@@ -111,6 +121,24 @@ public class PaymentBill extends Model<PaymentBill> {
 
 	public PaymentBill setId(Long id) {
 		this.id = id;
+		return this;
+	}
+
+	public Long getOrgId() {
+		return orgId;
+	}
+
+	public PaymentBill setOrgId(Long orgId) {
+		this.orgId = orgId;
+		return this;
+	}
+
+	public String getOrgTag() {
+		return orgTag;
+	}
+
+	public PaymentBill setOrgTag(String orgTag) {
+		this.orgTag = orgTag;
 		return this;
 	}
 
@@ -292,6 +320,10 @@ public class PaymentBill extends Model<PaymentBill> {
 
 	public static final String RETURN_URL = "return_url";
 
+	public static final String ORG_ID = "org_id";
+
+	public static final String ORG_TAG = "org_tag";
+
 	@Override
 	protected Serializable pkVal() {
 		return this.id;
@@ -300,23 +332,25 @@ public class PaymentBill extends Model<PaymentBill> {
 	@Override
 	public String toString() {
 		return "PaymentBill{" +
-			"id=" + id +
-			", billNum=" + billNum +
-			", appId=" + appId +
-			", paymentType=" + paymentType +
-			", outOrderNum=" + outOrderNum +
-			", totalFee=" + totalFee +
-			", title=" + title +
-			", detail=" + detail +
-			", tranId=" + tranId +
-			", createTime=" + createTime +
-			", status=" + status +
-			", notifyUrl=" + notifyUrl +
-			", notifyResult=" + notifyResult +
-			", notifyAttemptCount=" + notifyAttemptCount +
-			", lastNotifyTime=" + lastNotifyTime +
-			", customerData=" + customerData +
-			", returnUrl=" + returnUrl +
-			"}";
+				"id=" + id +
+				", orgId=" + orgId +
+				", orgTag='" + orgTag + '\'' +
+				", billNum='" + billNum + '\'' +
+				", appId='" + appId + '\'' +
+				", paymentType='" + paymentType + '\'' +
+				", outOrderNum='" + outOrderNum + '\'' +
+				", totalFee=" + totalFee +
+				", title='" + title + '\'' +
+				", detail='" + detail + '\'' +
+				", tranId='" + tranId + '\'' +
+				", createTime=" + createTime +
+				", status='" + status + '\'' +
+				", notifyUrl='" + notifyUrl + '\'' +
+				", notifyResult=" + notifyResult +
+				", notifyAttemptCount=" + notifyAttemptCount +
+				", lastNotifyTime=" + lastNotifyTime +
+				", customerData='" + customerData + '\'' +
+				", returnUrl='" + returnUrl + '\'' +
+				'}';
 	}
 }

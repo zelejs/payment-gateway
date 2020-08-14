@@ -4,11 +4,21 @@
     <sql id="Base_Column_List">
         p_payment_bill.*
     </sql>
+    <sql id="QueryOwnedOrgIds">
+        SELECT children.id FROM t_sys_org, t_sys_org as children WHERE t_sys_org.left_num &lt;= children.left_num AND
+        t_sys_org.right_num >= children.left_num and t_sys_org.id=#{record.orgId} order by t_sys_org.node_level ASC
+    </sql>
     <select id="findPaymentBillPage" resultType="PaymentBillRecord" parameterType="PaymentBillRecord">
         SELECT p_payment_bill.*
         FROM p_payment_bill
+        <if test="record.orgId > 0">
+            ,(<include refid="QueryOwnedOrgIds"></include>) AS ownedOrgIds
+        </if>
         WHERE 1=1
 
+        <if test="record.orgId > 0">
+            AND p_payment_bill.org_id = ownedOrgIds.id
+        </if>
         <if test="record.appId != null and record.appId != ''">
             AND p_payment_bill.app_id = #{record.appId}
         </if>

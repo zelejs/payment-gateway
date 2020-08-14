@@ -1,6 +1,7 @@
 package com.jfeat.am.module.payment.constant;
 
-import com.jfeat.am.common.exception.BusinessException;
+
+import com.jfeat.crud.base.exception.BusinessException;
 
 /**
  * @author jackyhuang

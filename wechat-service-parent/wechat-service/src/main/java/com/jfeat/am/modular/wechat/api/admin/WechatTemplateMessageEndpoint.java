@@ -1,9 +1,7 @@
 package com.jfeat.am.modular.wechat.api.admin;
 
 import com.google.common.collect.Maps;
-import com.jfeat.am.common.annotation.Permission;
 import com.jfeat.am.common.persistence.model.WechatTemplateMessage;
-import com.jfeat.am.core.jwt.JWTKit;
 import com.jfeat.am.core.support.BeanKit;
 import com.jfeat.am.modular.wechat.constant.WechatPermission;
 import com.jfeat.am.modular.wechat.notification.AbstractNotification;
@@ -43,7 +41,7 @@ public class WechatTemplateMessageEndpoint   {
 
     @ApiOperation("微信模版消息列表")
     @GetMapping
-    @Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_VIEW})
+    //@Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_VIEW})
     public Tip list(@RequestParam(required = false) Long typeId) {
         //Long tenantId = tenantService.getDefaultTenant().getId();
         return SuccessTip.create(wechatTemplateMessageService.getTemplateMessages(null, typeId));
@@ -51,7 +49,7 @@ public class WechatTemplateMessageEndpoint   {
 
     @ApiOperation("单个微信模版消息")
     @GetMapping("/{id}")
-    @Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_VIEW})
+    //@Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_VIEW})
     public Tip getTemplateMessageById(@PathVariable Long id) {
         WechatTemplateMessage wechatTemplateMessage = wechatTemplateMessageService.getTemplateMessageById(id);
         Map<String, Object> map = BeanKit.beanToMap(wechatTemplateMessage);
@@ -62,7 +60,7 @@ public class WechatTemplateMessageEndpoint   {
 
     @ApiOperation("添加微信模版消息")
     @PostMapping
-    @Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_UPDATE})
+    //@Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_UPDATE})
     public Tip save(@Valid @RequestBody WechatTemplateMessageWrapper wechatTemplateMessageWrapper) {
         //Long tenantId = tenantService.getDefaultTenant().getId();
         wechatTemplateMessageWrapper.setTenantId(null);
@@ -72,7 +70,7 @@ public class WechatTemplateMessageEndpoint   {
 
     @ApiOperation("更新微信模版消息")
     @PutMapping("/{id}")
-    @Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_UPDATE})
+    //@Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_UPDATE})
     public Tip update(@Valid @RequestBody WechatTemplateMessageWrapper wechatTemplateMessageWrapper,
                       @PathVariable("id") Long id) {
         //Long tenantId = tenantService.getDefaultTenant().getId();
@@ -88,7 +86,7 @@ public class WechatTemplateMessageEndpoint   {
 
     @ApiOperation("删除微信模版消息")
     @DeleteMapping("/{id}")
-    @Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_DELETE})
+    //@Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_DELETE})
     public Tip remove(@PathVariable("id") Long id) {
         //Long tenantId = tenantService.getDefaultTenant().getId();
         WechatTemplateMessage wechatTemplateMessage = wechatTemplateMessageService.getTemplateMessageById(id);
@@ -100,7 +98,7 @@ public class WechatTemplateMessageEndpoint   {
     }
 
     @GetMapping("/send/{openid}")
-    @Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_VIEW})
+    //@Permission({WechatPermission.WECHAT_TEMPLATE_MESSAGE_VIEW})
     public Tip testSend(@PathVariable String openid) {
         //Long tenantId = tenantService.getDefaultTenant().getId();
         messageNotification.setTenantId(null).setOpenid(openid).send();

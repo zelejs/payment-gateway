@@ -1,9 +1,7 @@
 package com.jfeat.am.module.payment.services.domain.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jfeat.am.core.support.StrKit;
-import com.jfeat.am.core.util.JsonKit;
-import com.jfeat.am.modular.system.service.TenantService;
+import com.jfeat.am.core.jwt.JWTKit;
 import com.jfeat.am.modular.wechat.notification.MessageNotification;
 import com.jfeat.am.module.config.PaymentProperties;
 import com.jfeat.am.module.payment.constant.AppStatus;
@@ -17,7 +15,9 @@ import com.jfeat.am.module.payment.services.crud.service.impl.CRUDPaymentBillSer
 import com.jfeat.am.module.payment.services.persistence.model.PaymentApp;
 import com.jfeat.am.module.payment.services.persistence.model.PaymentBill;
 import com.jfeat.am.module.payment.utils.PaymentKit;
+import com.jfeat.crud.base.util.StrKit;
 import com.jfeat.http.utils.HttpUtils;
+import com.jfinal.kit.JsonKit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -50,8 +50,8 @@ public class PaymentBillServiceImpl extends CRUDPaymentBillServiceImpl implement
     MessageNotification messageNotification;
     @Resource
     PaymentProperties paymentProperties;
-    @Resource
-    TenantService tenantService;
+    //@Resource
+    //TenantService tenantService;
 
 
     @Override
@@ -111,7 +111,7 @@ public class PaymentBillServiceImpl extends CRUDPaymentBillServiceImpl implement
             messageNotification.setTitle("微信支付款项进账通知")
                     .setContent("账单号:" + orderNum + ", 交易号：" + tranId)
                     .setOpenid(openid)
-                    .setTenantId(tenantService.getDefaultTenant().getId())
+                    .setTenantId(JWTKit.getTenantOrgId())
                     .send();
         }
     }

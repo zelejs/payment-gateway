@@ -25,6 +25,16 @@ public class PaymentApp extends Model<PaymentApp> {
 
 	@TableId(value="id", type= IdType.AUTO)
 	private Long id;
+	/**
+	 * 用于隔离的组织id, 由crud-plus维护
+	 */
+	@TableField("org_id")
+	private  Long orgId;
+	/**
+	 * 用于隔离的组织标识, 参考 docker而定
+	 */
+	@TableField("org_tag")
+	private String orgTag;
     /**
      * 应用ID
      */
@@ -61,6 +71,24 @@ public class PaymentApp extends Model<PaymentApp> {
 
 	public PaymentApp setId(Long id) {
 		this.id = id;
+		return this;
+	}
+
+	public Long getOrgId() {
+		return orgId;
+	}
+
+	public PaymentApp setOrgId(Long orgId) {
+		this.orgId = orgId;
+		return this;
+	}
+
+	public String getOrgTag() {
+		return orgTag;
+	}
+
+	public PaymentApp setOrgTag(String orgTag) {
+		this.orgTag = orgTag;
 		return this;
 	}
 
@@ -132,6 +160,10 @@ public class PaymentApp extends Model<PaymentApp> {
 
 	public static final String NOTE = "note";
 
+	public static final String ORG_ID = "org_id";
+
+	public static final String ORG_TAG = "org_tag";
+
 	@Override
 	protected Serializable pkVal() {
 		return this.id;
@@ -140,13 +172,15 @@ public class PaymentApp extends Model<PaymentApp> {
 	@Override
 	public String toString() {
 		return "PaymentApp{" +
-			"id=" + id +
-			", appId=" + appId +
-			", appCode=" + appCode +
-			", appName=" + appName +
-			", createTime=" + createTime +
-			", status=" + status +
-			", note=" + note +
-			"}";
+				"id=" + id +
+				", orgId=" + orgId +
+				", orgTag='" + orgTag + '\'' +
+				", appId='" + appId + '\'' +
+				", appCode='" + appCode + '\'' +
+				", appName='" + appName + '\'' +
+				", createTime=" + createTime +
+				", status='" + status + '\'' +
+				", note='" + note + '\'' +
+				'}';
 	}
 }

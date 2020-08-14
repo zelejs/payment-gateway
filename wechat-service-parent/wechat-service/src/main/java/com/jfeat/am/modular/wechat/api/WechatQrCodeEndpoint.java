@@ -31,7 +31,7 @@ public class WechatQrCodeEndpoint   {
     @PostMapping("/temporary")
     public Tip createTemporary(@Max(2592000) @RequestParam(required = false, defaultValue = "604800") Integer expireSeconds,
                                @Min(1) @RequestParam Integer sceneId) {
-        //Long tenantId = JWTKit.getTenantId(getHttpServletRequest());
+        Long tenantId = JWTKit.getTenantId(/*getHttpServletRequest()*/);
         return SuccessTip.create(wechatQrCodeService.createTemporary(null, expireSeconds, sceneId));
     }
 

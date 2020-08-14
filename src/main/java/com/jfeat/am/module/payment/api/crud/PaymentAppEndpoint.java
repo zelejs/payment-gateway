@@ -1,16 +1,15 @@
 package com.jfeat.am.module.payment.api.crud;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.jfeat.am.common.constant.tips.SuccessTip;
-import com.jfeat.am.common.constant.tips.Tip;
-import com.jfeat.am.common.controller.BaseController;
-import com.jfeat.am.common.exception.BusinessCode;
-import com.jfeat.am.common.exception.BusinessException;
-import com.jfeat.am.module.log.annotation.BusinessLog;
+import com.jfeat.am.core.jwt.JWTKit;
 import com.jfeat.am.module.payment.services.crud.model.PaymentAppModel;
 import com.jfeat.am.module.payment.services.domain.dao.QueryPaymentAppDao;
 import com.jfeat.am.module.payment.services.domain.model.PaymentAppRecord;
 import com.jfeat.am.module.payment.services.domain.service.PaymentAppService;
+import com.jfeat.crud.base.exception.BusinessCode;
+import com.jfeat.crud.base.exception.BusinessException;
+import com.jfeat.crud.base.tips.SuccessTip;
+import com.jfeat.crud.base.tips.Tip;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/api/payment/apps")
-public class PaymentAppEndpoint extends BaseController {
+public class PaymentAppEndpoint   {
 
 
     @Resource
@@ -78,6 +77,7 @@ public class PaymentAppEndpoint extends BaseController {
                                 @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                                 @RequestParam(name = "search", required = false) String search,
                                 @RequestParam(name = "id", required = false) Long id,
+                                @RequestParam(name = "orgId", required = false) Long orgId,
                                 @RequestParam(name = "appId", required = false) String appId,
                                 @RequestParam(name = "appCode", required = false) String appCode,
                                 @RequestParam(name = "createTime", required = false) Date createTime,
@@ -101,13 +101,14 @@ public class PaymentAppEndpoint extends BaseController {
 
         PaymentAppRecord record = new PaymentAppRecord();
         record.setId(id);
+        record.setOrgId(JWTKit.getOrgId());
         record.setAppId(appId);
         record.setAppCode(appCode);
         record.setCreateTime(createTime);
         record.setStatus(status);
         record.setNote(note);
 
-        page.setRecords(queryPaymentAppDao.findPaymentAppPage(page, record, search, orderBy));
+        page.setRecords(queryPaymentAppDao.findPaymentAppPage(page, orgId,record, search, orderBy));
 
         return SuccessTip.create(page);
     }

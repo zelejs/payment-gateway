@@ -1,6 +1,5 @@
 package com.jfeat.am.modular.wechat.api.admin;
 
-import com.jfeat.am.common.annotation.Permission;
 import com.jfeat.am.modular.wechat.constant.WechatPermission;
 import com.jfeat.crud.base.tips.ErrorTip;
 import com.jfeat.crud.base.tips.Tip;
@@ -17,7 +16,7 @@ public class WechatMenuEndpoint   {
 
     @ApiOperation("查询微信菜单")
     @GetMapping
-    @Permission({WechatPermission.WECHAT_MENU_VIEW})
+    //@Permission({WechatPermission.WECHAT_MENU_VIEW})
     public Tip get() {
         //TODO
 
@@ -26,7 +25,7 @@ public class WechatMenuEndpoint   {
 
     @ApiOperation("更新微信菜单")
     @PostMapping
-    @Permission({WechatPermission.WECHAT_MENU_UPDATE})
+    //@Permission({WechatPermission.WECHAT_MENU_UPDATE})
     public Tip update() {
         //TODO
 

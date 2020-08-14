@@ -1,8 +1,6 @@
 package com.jfeat.am.modular.wechat.api.admin;
 
-import com.jfeat.am.common.annotation.Permission;
 import com.jfeat.am.common.persistence.model.WechatConfig;
-import com.jfeat.am.core.jwt.JWTKit;
 import com.jfeat.am.modular.wechat.constant.WechatPermission;
 import com.jfeat.am.modular.wechat.service.WechatConfigService;
 import com.jfeat.crud.base.tips.SuccessTip;
@@ -27,7 +25,7 @@ public class WechatConfigEndpoint   {
 
     @ApiOperation("配置微信")
     @GetMapping
-    @Permission({WechatPermission.WECHAT_CONFIG_VIEW})
+    //@Permission({WechatPermission.WECHAT_CONFIG_VIEW})
     public Tip show() {
         //Long tenantId = tenantService.getDefaultTenant().getId();
         WechatConfig wechatConfig = configService.getByTenantId(null/*tenantId*/);
@@ -36,7 +34,7 @@ public class WechatConfigEndpoint   {
 
     @ApiOperation("更新配置微信")
     @PostMapping
-    @Permission({WechatPermission.WECHAT_CONFIG_UPDATE})
+    //@Permission({WechatPermission.WECHAT_CONFIG_UPDATE})
     public Tip update(@RequestBody WechatConfig wechatConfig) {
         //Long tenantId = tenantService.getDefaultTenant().getId();
         WechatConfig originalWechatConfig = configService.getByTenantId(null/*tenantId*/);

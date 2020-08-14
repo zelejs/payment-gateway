@@ -1,12 +1,7 @@
 package com.jfeat.am.module.payment.api.crud;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.jfeat.am.common.constant.tips.SuccessTip;
-import com.jfeat.am.common.constant.tips.Tip;
-import com.jfeat.am.common.controller.BaseController;
-import com.jfeat.am.common.exception.BusinessCode;
-import com.jfeat.am.common.exception.BusinessException;
-import com.jfeat.am.module.log.annotation.BusinessLog;
+import com.jfeat.am.core.jwt.JWTKit;
 import com.jfeat.am.module.payment.constant.BillStatus;
 import com.jfeat.am.module.payment.constant.PaymentBizException;
 import com.jfeat.am.module.payment.services.crud.model.PaymentBillModel;
@@ -14,9 +9,12 @@ import com.jfeat.am.module.payment.services.domain.dao.QueryPaymentBillDao;
 import com.jfeat.am.module.payment.services.domain.model.PaymentBillRecord;
 import com.jfeat.am.module.payment.services.domain.service.PaymentBillService;
 import com.jfeat.am.module.payment.services.persistence.model.PaymentBill;
+import com.jfeat.crud.base.exception.BusinessCode;
+import com.jfeat.crud.base.exception.BusinessException;
+import com.jfeat.crud.base.tips.SuccessTip;
+import com.jfeat.crud.base.tips.Tip;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,7 +31,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/api/payment/bills")
-public class PaymentBillEndpoint extends BaseController {
+public class PaymentBillEndpoint   {
 
     @Resource
     PaymentBillService paymentBillService;
@@ -69,6 +67,7 @@ public class PaymentBillEndpoint extends BaseController {
     @GetMapping
     public Tip queryPaymentBills(Page<PaymentBillRecord> page,
                                  @RequestParam(name = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                                 @RequestParam(name = "orgId", required = false, defaultValue = "0") Long orgId,
                                  @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                                  @RequestParam(name = "appId", required = false) String appId,
                                  @RequestParam(name = "status", required = false) String status,
@@ -89,10 +88,11 @@ public class PaymentBillEndpoint extends BaseController {
         page.setSize(pageSize);
 
         PaymentBillRecord record = new PaymentBillRecord();
+        record.setOrgId(JWTKit.getOrgId());
         record.setAppId(appId);
         record.setStatus(status);
 
-        page.setRecords(queryPaymentBillDao.findPaymentBillPage(page, record, null, orderBy));
+        page.setRecords(queryPaymentBillDao.findPaymentBillPage(page,orgId, record, null, orderBy));
 
         return SuccessTip.create(page);
     }

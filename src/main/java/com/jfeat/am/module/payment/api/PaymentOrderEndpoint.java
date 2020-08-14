@@ -2,13 +2,8 @@ package com.jfeat.am.module.payment.api;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.jfeat.am.common.constant.tips.SuccessTip;
-import com.jfeat.am.common.constant.tips.Tip;
-import com.jfeat.am.common.controller.BaseController;
 import com.jfeat.am.common.persistence.model.WechatConfig;
-import com.jfeat.am.core.support.StrKit;
-import com.jfeat.am.core.util.JsonKit;
-import com.jfeat.am.modular.system.service.TenantService;
+import com.jfeat.am.core.jwt.JWTKit;
 import com.jfeat.am.modular.wechat.service.WechatConfigService;
 import com.jfeat.am.modular.wechat.service.WechatPushOrderService;
 import com.jfeat.am.module.config.PaymentProperties;
@@ -25,6 +20,10 @@ import com.jfeat.am.module.payment.services.domain.service.PaymentBillService;
 import com.jfeat.am.module.payment.services.persistence.model.PaymentApp;
 import com.jfeat.am.module.payment.services.persistence.model.PaymentBill;
 import com.jfeat.am.module.payment.utils.PaymentKit;
+import com.jfeat.crud.base.tips.SuccessTip;
+import com.jfeat.crud.base.tips.Tip;
+import com.jfeat.crud.base.util.StrKit;
+import com.jfinal.kit.JsonKit;
 import com.jfinal.weixin.sdk.kit.IpKit;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -44,7 +43,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/pub/payment/order")
-public class PaymentOrderEndpoint extends BaseController {
+public class PaymentOrderEndpoint   {
 
     private static final Logger logger = LoggerFactory.getLogger(PaymentOrderEndpoint.class);
 
@@ -53,8 +52,8 @@ public class PaymentOrderEndpoint extends BaseController {
     @Resource
     WechatPushOrderService wechatPushOrderService;
 
-    @Resource
-    TenantService tenantService;
+    //@Resource
+    //TenantService tenantService;
 
     @Resource
     PaymentProperties paymentProperties;
@@ -87,6 +86,7 @@ public class PaymentOrderEndpoint extends BaseController {
     @GetMapping
     @ApiOperation(value = "查询账单数据", response = PaymentBillRecord.class)
     public Tip queryOrder(@RequestParam(name = "pageNum", required = false) Integer pageNum,
+                          @RequestParam(name = "orgId", required = false) Long orgId,
                           @RequestParam(name = "pageSize", required = false) Integer pageSize,
                           @RequestParam(name = "status", required = false) String status,
                           @RequestParam String appId,
@@ -123,10 +123,11 @@ public class PaymentOrderEndpoint extends BaseController {
         page.setSize(pageSize);
 
         PaymentBillRecord record = new PaymentBillRecord();
+        record.setOrgId(JWTKit.getOrgId());
         record.setAppId(appId);
         record.setStatus(status);
 
-        page.setRecords(queryPaymentBillDao.findPaymentBillPage(page, record, null, null));
+        page.setRecords(queryPaymentBillDao.findPaymentBillPage(page, orgId, record,null, null));
 
         return SuccessTip.create(page);
     }
@@ -199,7 +200,7 @@ public class PaymentOrderEndpoint extends BaseController {
                 paymentBill.getOutOrderNum(),
                 PaymentKit.convertPrice(paymentBill.getTotalFee().doubleValue()),
                 null,
-                IpKit.getRealIp(getHttpServletRequest()),
+                IpKit.getRealIp(JWTKit.getRequest()),
                 paymentProperties.getApiHost(),
                 com.jfeat.am.modular.wechat.constant.TradeType.NATIVE_TYPE
         );
@@ -215,7 +216,7 @@ public class PaymentOrderEndpoint extends BaseController {
                 .append("&appName=").append(paymentApp.getAppName())
                 .append("&returnUrl=").append(PaymentKit.urlEncode(paymentBill.getReturnUrl()));
 
-        WechatConfig wechatConfig = wechatConfigService.getByTenantId(tenantService.getDefaultTenant().getId());
+        WechatConfig wechatConfig = wechatConfigService.getByTenantId(JWTKit.getTenantId()/*tenantService.getDefaultTenant().getId()*/);
         String url = buildUrl(wechatConfig.getHost() + "/payment/wpay", queryString.toString());
         result.put("wpayUrl", url);
     }

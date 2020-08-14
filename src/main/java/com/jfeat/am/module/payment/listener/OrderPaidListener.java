@@ -1,6 +1,5 @@
 package com.jfeat.am.module.payment.listener;
 
-import com.jfeat.am.core.support.StrKit;
 import com.jfeat.am.modular.wechat.event.PaidBean;
 import com.jfeat.am.modular.wechat.event.PaidEvent;
 import com.jfeat.am.modular.wechat.notification.MessageNotification;

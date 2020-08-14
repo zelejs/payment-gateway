@@ -1,6 +1,5 @@
 package com.jfeat.am.modular.wechat.api.admin;
 
-import com.jfeat.am.common.annotation.Permission;
 import com.jfeat.am.common.persistence.model.WechatMessageType;
 import com.jfeat.am.core.support.BeanKit;
 import com.jfeat.am.modular.wechat.constant.WechatPermission;
@@ -28,7 +27,7 @@ public class WechatMessageTypeEndpoint   {
     //TenantService tenantService;
 
     @GetMapping
-    @Permission(WechatPermission.WECHAT_TEMPLATE_MESSAGE_VIEW)
+    //@Permission(WechatPermission.WECHAT_TEMPLATE_MESSAGE_VIEW)
     public Tip getMessageTypes() {
         return SuccessTip.create(wechatMessageTypeService.selectAll());
     }
